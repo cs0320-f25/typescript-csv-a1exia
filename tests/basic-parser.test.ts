@@ -2,6 +2,11 @@ import { parseCSV } from "../src/basic-parser";
 import * as path from "path";
 
 const PEOPLE_CSV_PATH = path.join(__dirname, "../data/people.csv");
+const GREEK_CSV_PATH = path.join(__dirname, "../data/ancient-greece.csv");
+const WICKED_CSV_PATH = path.join(__dirname, "../data/artist-song.csv");
+const EMPTY_FIELD_CSV_PATH = path.join(__dirname, "../data/empty-fields.csv")
+const EXTRA_ROW_CSV_PATH = path.join(__dirname, "../data/extra-row.csv")
+
 
 test("parseCSV yields arrays", async () => {
   const results = await parseCSV(PEOPLE_CSV_PATH)
@@ -20,3 +25,23 @@ test("parseCSV yields only arrays", async () => {
     expect(Array.isArray(row)).toBe(true);
   }
 });
+
+test("parseCSV incorrectly splits field with commas", async() => {
+  const results = await parseCSV(GREEK_CSV_PATH)
+  expect(results[0]).toEqual(["Caesar", "Julius", "veni, vidi, vici"]);
+});
+
+test("parseCSV incorrectly handling multiple quotes", async() => {
+  const results = await parseCSV(WICKED_CSV_PATH)
+  expect(results[1]).toEqual(["Cynthia Revo", 'I sang: "Its meeeeeeee, so if you care to find me..."']);
+})
+
+test("parseCSV turns empty fields into an empty string", async() => {
+  const results = await parseCSV(EMPTY_FIELD_CSV_PATH)
+  expect(results[1]).toEqual(["Erika", "", "black"]);
+})
+
+test("parseCSV skips extra blank lines", async() => {
+  const results = await parseCSV(EXTRA_ROW_CSV_PATH)
+  expect(results).toContainEqual([]);
+})
