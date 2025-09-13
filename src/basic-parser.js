@@ -49,6 +49,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PersonRowSchema = void 0;
 exports.parseCSV = parseCSV;
 const fs = __importStar(require("fs"));
 const readline = __importStar(require("readline"));
@@ -66,7 +67,7 @@ const zod_1 = require("zod");
  * @param path The path to the file being loaded.
  * @returns a "promise" to produce a 2-d array of cell values
  */
-function parseCSV(path) {
+function parseCSV(path, ZodSchema) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, e_1, _b, _c;
         // This initial block of code reads from a file in Node.js. The "rl"
@@ -77,6 +78,7 @@ function parseCSV(path) {
             crlfDelay: Infinity, // handle different line endings
         });
         // Create an empty array to hold the results
+        // let result = []
         let result = [];
         try {
             // We add the "await" here because file I/O is asynchronous. 
@@ -87,7 +89,16 @@ function parseCSV(path) {
                 _d = false;
                 const line = _c;
                 const values = line.split(",").map((v) => v.trim());
-                result.push(values);
+                if (ZodSchema) {
+                    const parseResult = ZodSchema.safeParse(values);
+                    if (!parseResult.success) {
+                        throw new Error("Failed");
+                    }
+                    result.push(parseResult.data);
+                }
+                else {
+                    result.push(values);
+                }
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -100,4 +111,6 @@ function parseCSV(path) {
         return result;
     });
 }
-const studentRowSchema = zod_1.z.tuple([zod_1.z.string(), zod_1.z.coerce.number(), zod_1.z.email()]);
+//const studentRowSchema = z.tuple([z.string(), z.coerce.number(), z.email()])
+exports.PersonRowSchema = zod_1.z.tuple([zod_1.z.string(), zod_1.z.coerce.number()])
+    .transform(tup => ({ name: tup[0], age: tup[1] }));

@@ -74,9 +74,14 @@ automatic type inference, and detailed error reporting.
 #### How To…
 
 #### Team members and contributions (include cs logins):
-psromero: conceptually discussed the assingment
-sjain80: conceptually discussed the assingment
+none
 
 #### Collaborators (cslogins of anyone you worked with on this project and/or generative AI):
+psromero: conceptually discussed the assingment
+sjain80: conceptually discussed the assingment
+Copilot: used it for the LLM portions
+
 #### Total estimated time it took to complete project:
+
+
 #### Link to GitHub Repo:  
