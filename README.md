@@ -72,11 +72,11 @@ I think having randomly generated datasets to feed into the CSV parser could be 
 
 - #### 3. Overall experience, Bugs encountered and resolved
 #### Errors/Bugs:
+Currently in my program, with the tests I have written, I have not found errors or bugs with the design I chose to implement. Earlier, I had a bug that made my previous tests not work since the parser took in two parameters, but I fixed that by making the second parameter optional. I will say that since the instructions said that we were only concerned with changing the parser to take in a zod schema, there are still errors in the actual parser I have yet to fix, meaning my previous tests from part B still will error out. I hope that's okay but I thought it would be good to mention regardless.
 #### Tests:
+In part A, I created four additional tests that were able to pinpoint issues with the parser, such as the way that it did not consider if the commas were part of the data field and that it would completely ignore blank lines, meaning that the parser itself was not very specific which would be problematic from the point of view of a user. I then also created tests to ensure that my zod schema implementation would both be able to return data using a schema and also string[][]. I then created two seperate tests to check that it would see if a row was successfully in the schema format or not, showing a success and failure case.
 #### How To…
-(I hope its okay because I was unsure as to what "Tests" and "How to..." meant so I just responded to part 3 in the reflection in this paragraph):
-I had to think really hard on how to not make my previous tests have a red underline after making the type of the parser take in a second parameter for the safeparser. I tested it out by trying to search up how this could be possible and found that by adding the ? after the schema, it makes it optional which is exactly what I needed. Additionally, I originally checked for whether it was a Zod schema inside of the for loop in my parser, but it fed out a strange error when I ran npm run build so I had to create two seperate return statements inside the if and else statements. I just feel like the most surprising thing was that despite feeling mostly comfortable jumping from java to python, I think typescript is quite different and a lot of syntax I wouldn't have been able to figure out had I not thoroughly searched for them.
-
+I ran the tests using the commands npm run build and then npm test.
 #### Team members and contributions (include cs logins):
 none
 
@@ -84,10 +84,12 @@ none
 psromero: conceptually discussed the assingment
 sjain80: conceptually discussed the assingment
 Copilot: used it for the LLM portions in brainstorming ideas
+Copilot. (2025). Microsoft (August 7 version) [Large language model]. https://copilot.microsoft.com/.
 Chatgpt: used it to explain zod functions, clarifying what the prebuilt methods are
+OpenAI. (2025). ChatGPT (August 7 version) [Large language model]. https://chat.openai.com/chat. 
 
 #### Total estimated time it took to complete project:
-4-5 hours
+5 hours
 
 #### Link to GitHub Repo:  
 https://github.com/cs0320-f25/typescript-csv-a1exia.git
