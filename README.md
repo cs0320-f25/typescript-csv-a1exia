@@ -65,13 +65,17 @@ automatic type inference, and detailed error reporting.
 ### 1340 Supplement
 
 - #### 1. Correctness
+In order for a CSV parser to properly read data, it must split values into individual data sets for each row based on the comma delimiter and it should also cover edge cases such as quoted fields, header specifications, and embedded commas in strings. Ideally, a correct CSV parser should also be able to type check and ensure the data it reads is properly categorized, which can be done with a package like Zod.
 
 - #### 2. Random, On-Demand Generation
+I think having randomly generated datasets to feed into the CSV parser could be very useful in creating edge case tests. These large datasets could also test the parser in how it can handle large amounts of data at a time. Generally, it just is a good idea to have a large pool of data to test your code on since you can be sure that you implement safety nets that catch incorrect data fields for example.
 
 - #### 3. Overall experience, Bugs encountered and resolved
 #### Errors/Bugs:
 #### Tests:
 #### How To…
+(I hope its okay because I was unsure as to what "Tests" and "How to..." meant so I just responded to part 3 in the reflection in this paragraph):
+I had to think really hard on how to not make my previous tests have a red underline after making the type of the parser take in a second parameter for the safeparser. I tested it out by trying to search up how this could be possible and found that by adding the ? after the schema, it makes it optional which is exactly what I needed. Additionally, I originally checked for whether it was a Zod schema inside of the for loop in my parser, but it fed out a strange error when I ran npm run build so I had to create two seperate return statements inside the if and else statements. I just feel like the most surprising thing was that despite feeling mostly comfortable jumping from java to python, I think typescript is quite different and a lot of syntax I wouldn't have been able to figure out had I not thoroughly searched for them.
 
 #### Team members and contributions (include cs logins):
 none
@@ -79,9 +83,11 @@ none
 #### Collaborators (cslogins of anyone you worked with on this project and/or generative AI):
 psromero: conceptually discussed the assingment
 sjain80: conceptually discussed the assingment
-Copilot: used it for the LLM portions
+Copilot: used it for the LLM portions in brainstorming ideas
+Chatgpt: used it to explain zod functions, clarifying what the prebuilt methods are
 
 #### Total estimated time it took to complete project:
-
+4-5 hours
 
 #### Link to GitHub Repo:  
+https://github.com/cs0320-f25/typescript-csv-a1exia.git

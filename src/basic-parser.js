@@ -49,11 +49,9 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PersonRowSchema = void 0;
 exports.parseCSV = parseCSV;
 const fs = __importStar(require("fs"));
 const readline = __importStar(require("readline"));
-const zod_1 = require("zod");
 /**
  * This is a JSDoc comment. Similar to JavaDoc, it documents a public-facing
  * function for others to use. Most modern editors will show the comment when
@@ -69,7 +67,7 @@ const zod_1 = require("zod");
  */
 function parseCSV(path, ZodSchema) {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a, e_1, _b, _c;
+        var _a, e_1, _b, _c, _d, e_2, _e, _f;
         // This initial block of code reads from a file in Node.js. The "rl"
         // value can be iterated over in a "for" loop. 
         const fileStream = fs.createReadStream(path);
@@ -79,38 +77,48 @@ function parseCSV(path, ZodSchema) {
         });
         // Create an empty array to hold the results
         // let result = []
-        let result = [];
-        try {
-            // We add the "await" here because file I/O is asynchronous. 
-            // We need to force TypeScript to _wait_ for a row before moving on. 
-            // More on this in class soon!
-            for (var _d = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield rl_1.next(), _a = rl_1_1.done, !_a; _d = true) {
-                _c = rl_1_1.value;
-                _d = false;
-                const line = _c;
-                const values = line.split(",").map((v) => v.trim());
-                if (ZodSchema) {
-                    const parseResult = ZodSchema.safeParse(values);
-                    if (!parseResult.success) {
-                        throw new Error("Failed");
-                    }
-                    result.push(parseResult.data);
+        // We add the "await" here because file I/O is asynchronous. 
+        // We need to force TypeScript to _wait_ for a row before moving on. 
+        // More on this in class soon!
+        if (ZodSchema) {
+            let result = [];
+            try {
+                for (var _g = true, rl_1 = __asyncValues(rl), rl_1_1; rl_1_1 = yield rl_1.next(), _a = rl_1_1.done, !_a; _g = true) {
+                    _c = rl_1_1.value;
+                    _g = false;
+                    const line = _c;
+                    const values = line.split(",").map((v) => v.trim());
+                    result.push(ZodSchema.safeParse(values));
                 }
-                else {
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (!_g && !_a && (_b = rl_1.return)) yield _b.call(rl_1);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+            return result;
+        }
+        else {
+            let result = [];
+            try {
+                for (var _h = true, rl_2 = __asyncValues(rl), rl_2_1; rl_2_1 = yield rl_2.next(), _d = rl_2_1.done, !_d; _h = true) {
+                    _f = rl_2_1.value;
+                    _h = false;
+                    const line = _f;
+                    const values = line.split(",").map((v) => v.trim());
                     result.push(values);
                 }
             }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (!_d && !_a && (_b = rl_1.return)) yield _b.call(rl_1);
+            catch (e_2_1) { e_2 = { error: e_2_1 }; }
+            finally {
+                try {
+                    if (!_h && !_d && (_e = rl_2.return)) yield _e.call(rl_2);
+                }
+                finally { if (e_2) throw e_2.error; }
             }
-            finally { if (e_1) throw e_1.error; }
+            return result;
         }
-        return result;
     });
 }
-//const studentRowSchema = z.tuple([z.string(), z.coerce.number(), z.email()])
-exports.PersonRowSchema = zod_1.z.tuple([zod_1.z.string(), zod_1.z.coerce.number()])
-    .transform(tup => ({ name: tup[0], age: tup[1] }));
